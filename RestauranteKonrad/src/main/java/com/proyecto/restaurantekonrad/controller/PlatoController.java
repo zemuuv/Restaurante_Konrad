@@ -14,6 +14,7 @@ public class PlatoController {
     @Autowired
     private SistemaRestaurante sistemaRestaurante;
 
+    //agregar nuevo plato al menu e inventario
     @PostMapping("/agregarPlato")
     public String agregarPlatoAlMenu(@RequestBody Plato plato) {
         return sistemaRestaurante.agregarProducto(plato);

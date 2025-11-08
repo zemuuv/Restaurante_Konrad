@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document (collection = "platos")
-public class Plato {
+public class Plato implements ItemOrden {
 
     @Id
     private String id_plato;
@@ -22,6 +22,7 @@ public class Plato {
         this.cantidad = cantidad;
     }
 
+    @Override
     public String getNombre() {
         return nombre;
     }
@@ -46,9 +47,8 @@ public class Plato {
         this.cantidad = cantidad;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
+    @Override
+    public Double getPrecio() { return precio; }
 
     public void setPrecio(Double precio) {
         this.precio = precio;

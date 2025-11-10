@@ -1,0 +1,84 @@
+/* Fondo general */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f9fa, #dee2e6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor principal del login */
+.login-container {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Título */
+.login-container h2 {
+  color: #2b2d42;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #212529; /* 🔹 color de texto oscuro */
+  background-color: #f8f9fa; /* gris claro */
+  transition: all 0.3s ease;
+}
+
+.login-form input::placeholder {
+  color: #6c757d; /* 🔹 gris suave para el texto placeholder */
+  opacity: 1;
+}
+
+
+.login-form input:focus {
+  outline: none;
+  border-color: #4361ee;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+/* Botón */
+.login-form button {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: #4361ee;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.login-form button:hover {
+  background-color: #3a0ca3;
+  transform: scale(1.02);
+}
+
+/* Mensajes de error o éxito */
+.mensaje {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #d90429;
+}
+
+/* Ajuste responsivo */
+@media (max-width:

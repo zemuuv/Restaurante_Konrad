@@ -28,7 +28,7 @@ public class ComboService {
         return comboRepository.save(combo);
     }
 
-    // ✅ Buscar combo y plato por nombre
+    // Buscar combo y plato por nombre
     public String agregarPlatoAComboPorNombre(String nombreCombo, String nombrePlato) {
         Optional<Combo> comboOpt = comboRepository.findByNombre(nombreCombo);
         Optional<Plato> platoOpt = platoRepository.findByNombre(nombrePlato);

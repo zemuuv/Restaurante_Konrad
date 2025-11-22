@@ -22,50 +22,67 @@ public class MenuService {
 
     public String ingresarPlato(Plato plato) {
 
-
         // Verificar si ya existe un menú
-        Menu menuExistente = menuRepository.findAll().stream().findFirst().orElse(null);
+        Menu menuExistente = menuRepository.findAll()
+                .stream()
+                .findFirst()
+                .orElse(null);
 
         if (menuExistente == null) {
+
             // Si no existe menú, crear uno nuevo
             Menu nuevoMenu = new Menu();
             nuevoMenu.setId_Menu("menu_unico"); // puedes dejarlo fijo o generar un UUID
+
             List<Plato> listaPlatos = new ArrayList<>();
             listaPlatos.add(plato);
             nuevoMenu.setPlatos(listaPlatos);
+
             menuRepository.save(nuevoMenu);
+
             // Guardar el plato en su colección
             platoRepository.save(plato);
+
             return "Primer menú creado y plato agregado";
+
         } else {
-            // Si ya existe menú, agregar o actualizar el plato existente
+
+            // Si ya existe, agregar el nuevo plato
             List<Plato> listaPlatos = menuExistente.getPlatos();
+
             if (listaPlatos == null) {
                 listaPlatos = new ArrayList<>();
             }
 
-            // Buscar si el plato ya existe en el menú
-            Plato platoExistente = listaPlatos.stream()
-                    .filter(p -> p.getNombre().equalsIgnoreCase(plato.getNombre()))
-                    .findFirst()
-                    .orElse(null);
+            for (int indice = 0; indice < listaPlatos.size(); indice++) {
 
-            if (platoExistente != null) {
-                Double nuevaCantidad = platoExistente.getCantidad() + plato.getCantidad();
-                platoExistente.setCantidad(nuevaCantidad);
-                platoRepository.save(platoExistente);
-            } else {
-                platoRepository.save(plato);
-                listaPlatos.add(plato);
+                // Si el plato ya existe, aumentar cantidad
+                if (listaPlatos.get(indice).getNombre().equals(plato.getNombre())) {
+
+                    listaPlatos.get(indice).setCantidad(
+                            listaPlatos.get(indice).getCantidad() + plato.getCantidad()
+                    );
+
+                } else {
+
+                    // Si llegó al final sin encontrarlo, es un plato nuevo
+                    if (indice == listaPlatos.size() - 1) {
+
+                        // Guardar el plato en su colección
+                        platoRepository.insert(plato);
+
+                        listaPlatos.add(plato);
+                    }
+                }
             }
 
             menuExistente.setPlatos(listaPlatos);
             menuRepository.save(menuExistente);
 
-            return "Plato agregado o actualizado correctamente en el menú";
-
+            return "Plato agregado al menú existente";
         }
     }
+
 
     public Menu obtenerMenu() {
         return menuRepository.findAll().stream().findFirst().orElse(null);

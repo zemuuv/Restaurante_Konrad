@@ -53,4 +53,14 @@ public class Plato implements ItemOrden {
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
+
+    @Override
+    public String toString() {
+        return "Plato{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }

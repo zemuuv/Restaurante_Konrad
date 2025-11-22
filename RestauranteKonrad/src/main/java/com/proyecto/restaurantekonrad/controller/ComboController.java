@@ -16,8 +16,8 @@ public class ComboController {
 
     // Crear combo
     @PostMapping("/crear")
-    public Combo crearCombo(@RequestParam String nombre) {
-        return comboService.crearCombo(nombre);
+    public Combo crearCombo(@RequestBody Combo combo) {
+        return comboService.crearCombo(combo.getNombre());
     }
 
     // Agregar plato a combo por nombre

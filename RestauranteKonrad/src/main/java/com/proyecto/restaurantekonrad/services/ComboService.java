@@ -33,6 +33,7 @@ public class ComboService {
         Optional<Combo> comboOpt = comboRepository.findByNombre(nombreCombo);
         Optional<Plato> platoOpt = platoRepository.findByNombre(nombrePlato);
 
+
         if (comboOpt.isEmpty()) {
             return "Combo con nombre '" + nombreCombo + "' no encontrado.";
         }
@@ -49,7 +50,7 @@ public class ComboService {
         combo.setItems(items);
         comboRepository.save(combo);
 
-        return "✅ Plato '" + nombrePlato + "' agregado al combo '" + nombreCombo + "'.";
+        return " Plato '" + nombrePlato + "' agregado al combo '" + nombreCombo + "'.";
     }
 
     //obtener lista de combos

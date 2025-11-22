@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Plato implements ItemOrden {
 
     @Id
-    private String id_plato;
+    private String id;
     private String nombre;
     private Double precio;
     private Double cantidad;
@@ -15,8 +15,8 @@ public class Plato implements ItemOrden {
     public Plato() {
     }
 
-    public Plato(String id_plato, String nombre, Double precio, Double cantidad) {
-        this.id_plato = id_plato;
+    public Plato(String id, String nombre, Double precio, Double cantidad) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
@@ -31,12 +31,12 @@ public class Plato implements ItemOrden {
         this.nombre = nombre;
     }
 
-    public String getId_plato() {
-        return id_plato;
+    public String getId() {
+        return id;
     }
 
-    public void setId_plato(String id_plato) {
-        this.id_plato = id_plato;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Double getCantidad() {

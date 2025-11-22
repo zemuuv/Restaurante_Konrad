@@ -34,7 +34,15 @@ public class InventarioService {
             if (listaPlatos == null) {
                 listaPlatos = new ArrayList<>();
             }
-            listaPlatos.add(plato);
+            for (int indice = 0;indice<listaPlatos.size();indice++){
+                if (listaPlatos.get(indice).getNombre().equals(plato.getNombre())) {
+                    listaPlatos.get(indice).setCantidad(listaPlatos.get(indice).getCantidad()+plato.getCantidad());
+                }else {
+                    if(indice==listaPlatos.size()-1){
+                        listaPlatos.add(plato);
+                    }
+                }
+            }
             InventarioExistente.setPlatos(listaPlatos);
             inventarioRepository.save(InventarioExistente);
             return "Plato agregado al inventario";

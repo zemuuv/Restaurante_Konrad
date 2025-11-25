@@ -9,20 +9,26 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      // Cambia esta URL por la del backend en Java
-      const res = await axios.post("http://localhost:8080/api/login", {
+      const res = await axios.post("http://localhost:8080/LogIn", {
         usuario,
         password,
       });
-      if (res.data.success) {
-        setMensaje("✅ Acceso concedido. Bienvenido " + usuario);
-        // Aquí podrías usar react-router, esto es una redirección simple:
-        window.location.href = "/menu";
-      } else {
+
+      if (res.data === "Credenciales inválidas") {
         setMensaje("❌ Usuario o contraseña incorrectos");
+        return;
       }
+
+      // guardar rol en localStorage
+      localStorage.setItem("rol", res.data);
+
+      setMensaje("✅ Bienvenido " + usuario);
+
+      window.location.href = "/panel";
     } catch (error) {
+      console.log(error);
       setMensaje("⚠️ Error al conectar con el servidor");
     }
   };
@@ -38,6 +44,7 @@ export default function Login() {
           onChange={(e) => setUsuario(e.target.value)}
           required
         />
+
         <input
           type="password"
           placeholder="Contraseña"
@@ -45,7 +52,9 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
         <button type="submit">Iniciar sesión</button>
+
         {mensaje && <p className="mensaje">{mensaje}</p>}
       </form>
     </div>

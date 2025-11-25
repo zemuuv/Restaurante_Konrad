@@ -1,0 +1,32 @@
+/* CONTENEDOR PRINCIPAL */
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #eef2ff, #f8fafc);
+}
+
+/* SIDEBAR FIJO */
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* CONTENIDO A LA DERECHA (RESPETA EL SIDEBAR) */
+.dashboard-content {
+  margin-left: 250px;   /* 👈 esto asegura que no se cruce */
+  width: calc(100% - 250px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* MAIN */
+.dashboard-main {
+  flex: 1;
+  padding: 2rem;
+}

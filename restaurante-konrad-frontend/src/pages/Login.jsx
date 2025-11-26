@@ -17,20 +17,37 @@ export default function Login() {
       });
 
       if (res.data === "Credenciales inválidas") {
+        localStorage.setItem("usuario", usuario);
+        localStorage.setItem("rol", res.data);
+
+        // Redirigir según rol
+        switch (res.data) {
+          case "Admin":
+            window.location.href = "/admin";
+            break;
+          case "Mesero":
+            window.location.href = "/mesero";
+            break;
+          case "Cocina":
+            window.location.href = "/cocina";
+            break;
+          case "Caja":
+            window.location.href = "/caja";
+            break;
+          default:
+            window.location.href = "/menu";
+        }
+      } else {
         setMensaje("❌ Usuario o contraseña incorrectos");
-        return;
-      }
-
-      // guardar rol en localStorage
-      localStorage.setItem("rol", res.data);
-
-      setMensaje("✅ Bienvenido " + usuario);
-
-      window.location.href = "/panel";
+         }
     } catch (error) {
       console.log(error);
       setMensaje("⚠️ Error al conectar con el servidor");
     }
+
+      setMensaje("✅ Bienvenido " + usuario);
+
+      window.location.href = "/panel";
   };
 
   return (

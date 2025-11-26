@@ -1,13 +1,13 @@
-/* CONTENEDOR GENERAL*/
-.platos-container {
+/* CONTENEDOR GENERAL */
+.solicitud-container {
   padding: 2rem;
-  background: #eef2ff; /* fondo más moderno */
+  background: #eef2ff; /* fondo moderno */
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
 
-.platos-container h1 {
-  font-size: 2.6rem;
+.solicitud-container h1 {
+  font-size: 2.4rem;
   font-weight: 700;
   color: #1e1b4b;
   display: flex;
@@ -16,30 +16,39 @@
   margin-bottom: 2rem;
 }
 
-/* FORMULARIO*/
-.platos-form {
+/* FORMULARIO */
+.solicitud-form {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 1.5rem;
 }
 
-.platos-form input {
-  padding: 0.9rem 1.1rem;
+.solicitud-form input,
+.solicitud-form textarea {
+  padding: 0.9rem 1.2rem;
   border: 2px solid #c7d2fe;
   border-radius: 10px;
   background: #ffffff;
   font-size: 1rem;
-  width: 240px;
   transition: all 0.25s ease;
+  width: 100%;
+  resize: vertical;
 }
 
-.platos-form input:focus {
+.solicitud-form input:focus,
+.solicitud-form textarea:focus {
   outline: none;
   border-color: #6366f1;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.35);
 }
 
-.platos-form button {
+/* BOTÓN */
+.solicitud-form button {
   padding: 0.9rem 1.6rem;
   background: linear-gradient(90deg, #4f46e5, #6366f1);
   color: white;
@@ -51,13 +60,13 @@
   transition: all 0.25s ease;
 }
 
-.platos-form button:hover {
-  transform: scale(1.06);
+.solicitud-form button:hover {
+  transform: scale(1.05);
   background: linear-gradient(90deg, #4338ca, #4f46e5);
   box-shadow: 0 5px 14px rgba(79, 70, 229, 0.4);
 }
 
-/* MENSAJES (Éxito / Error) */
+/* MENSAJE */
 .mensaje {
   margin-bottom: 1rem;
   padding: 0.9rem 1.2rem;
@@ -69,19 +78,13 @@
   align-items: center;
   gap: 10px;
   animation: fadeIn 0.4s ease;
-}
-
-.mensaje-ok {
   background: #dcfce7;
   color: #065f46;
   border: 2px solid #10b981;
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.35);
 }
 
-.mensaje-ok span {
-  font-size: 1.2rem;
-}
-
+/* ANIMACIÓN */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -93,9 +96,8 @@
   }
 }
 
-
-/* TABLA*/
-.platos-table {
+/* TABLA */
+.solicitud-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
@@ -104,12 +106,12 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.platos-table thead {
+.solicitud-table thead {
   background: #312e81;
   color: white;
 }
 
-.platos-table th {
+.solicitud-table th {
   padding: 1rem;
   text-align: left;
   font-size: 1rem;
@@ -117,36 +119,80 @@
   letter-spacing: 0.5px;
 }
 
-.platos-table td {
+.solicitud-table td {
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
   font-size: 0.95rem;
   color: #1f2937;
 }
 
-.platos-table tbody tr {
+.solicitud-table tbody tr {
   transition: all 0.2s ease;
 }
 
-.platos-table tbody tr:hover {
+.solicitud-table tbody tr:hover {
   background: #eef2ff;
   transform: scale(1.01);
 }
 
 /* Alternar colores fila por fila */
-.platos-table tbody tr:nth-child(even) {
+.solicitud-table tbody tr:nth-child(even) {
   background: #f9f9ff;
 }
 
-/* RESPONSIVE*/
+/* BOTONES DE ACCIÓN */
+.btn-edit,
+.btn-delete {
+  padding: 0.4rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 5px;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background-color: #facc15;
+  color: #92400e;
+}
+
+.btn-edit:hover {
+  background-color: #eab308;
+}
+
+.btn-delete {
+  background-color: #f87171;
+  color: #991b1b;
+}
+
+.btn-delete:hover {
+  background-color: #ef4444;
+}
+
+/* Mensaje “No hay registros” */
+.solicitud-table tbody tr td[colspan] {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 1.5rem 0;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .platos-form {
-    flex-direction: column;
-    width: 100%;
+  .solicitud-container h1 {
+    font-size: 2rem;
   }
 
-  .platos-form input,
-  .platos-form button {
+  .solicitud-table th,
+  .solicitud-table td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .solicitud-form input,
+  .solicitud-form textarea,
+  .solicitud-form button {
     width: 100%;
   }
 }

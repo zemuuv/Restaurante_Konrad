@@ -10,7 +10,7 @@ body, html {
   justify-content: center;
 }
 
-/* --- CONTENEDOR PRINCIPAL --- */
+/* CONTENEDOR PRINCIPAL */
 .login-container {
   width: 100%;
   max-width: 420px;
@@ -27,7 +27,7 @@ body, html {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
 }
 
-/* --- TÍTULO --- */
+/*  TÍTULO */
 .login-container h2 {
   font-size: 1.8rem;
   color: #1e293b;
@@ -38,14 +38,14 @@ body, html {
   gap: 10px;
 }
 
-/* --- FORMULARIO --- */
+/* FORMULARIO */
 .login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* --- CAMPOS DE TEXTO --- */
+/* CAMPOS DE TEXTO */
 .login-form input {
   width: 100%;
   padding: 0.85rem 1rem;
@@ -69,7 +69,7 @@ body, html {
   color: #9ca3af;
 }
 
-/* --- BOTÓN DE LOGIN --- */
+/* BOTÓN DE LOGIN */
 .login-form button {
   width: 100%;
   padding: 0.9rem;
@@ -90,7 +90,7 @@ body, html {
   box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
 }
 
-/* --- MENSAJE DE ERROR O ÉXITO --- */
+/* MENSAJE DE ERROR O ÉXITO */
 .mensaje {
   margin-top: 1.2rem;
   font-size: 0.95rem;
@@ -106,7 +106,7 @@ body, html {
   content: "⚠️";
 }
 
-/* --- RESPONSIVO PARA CELULARES --- */
+/* RESPONSIVO PARA CELULARES */
 @media (max-width: 480px) {
   .login-container {
     width: 90%;

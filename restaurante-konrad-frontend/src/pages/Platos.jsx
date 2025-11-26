@@ -10,10 +10,6 @@ export default function Platos() {
     cantidad: "",
   });
   const [mensaje, setMensaje] = useState("");
-
-  // =============================
-  //  CARGAR LISTA DE PLATOS
-  // =============================
   const cargarPlatos = async () => {
     try {
       const res = await axios.get("http://localhost:8080/menu/listar");
@@ -31,15 +27,10 @@ export default function Platos() {
     cargarPlatos();
   }, []);
 
-  // =============================
   // MANEJAR INPUTS
-  // =============================
+  
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-
-  // =============================
-  // GUARDAR PLATO
-  // =============================
   const guardarPlato = async (e) => {
     e.preventDefault();
 
@@ -95,10 +86,6 @@ export default function Platos() {
       </form>
 
       {mensaje && <p className="mensaje">{mensaje}</p>}
-
-      {/* =============================
-          TABLA DE PLATOS
-      ============================= */}
       <table className="platos-table">
         <thead>
           <tr>

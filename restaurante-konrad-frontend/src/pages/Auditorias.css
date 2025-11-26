@@ -1,0 +1,111 @@
+/* CONTENEDOR GENERAL */
+.contenedor-auditorias {
+  padding: 2rem;
+  background: #eef2ff; /* fondo moderno */
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.contenedor-auditorias h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+/* MENSAJES (Éxito / Error) */
+.contenedor-auditorias p {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1.2rem;
+  width: fit-content;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.4s ease;
+  background: #fef3c7;
+  color: #92400e;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TABLA */
+.contenedor-auditorias table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.contenedor-auditorias thead {
+  background: #312e81;
+  color: white;
+}
+
+.contenedor-auditorias th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.contenedor-auditorias td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.contenedor-auditorias tbody tr {
+  transition: all 0.2s ease;
+}
+
+.contenedor-auditorias tbody tr:hover {
+  background: #eef2ff;
+  transform: scale(1.01);
+}
+
+/* Alternar colores fila por fila */
+.contenedor-auditorias tbody tr:nth-child(even) {
+  background: #f9f9ff;
+}
+
+/* Mensaje de “No hay registros” */
+.contenedor-auditorias tbody tr td[colspan] {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 1.5rem 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .contenedor-auditorias h1 {
+    font-size: 2rem;
+  }
+
+  .contenedor-auditorias th,
+  .contenedor-auditorias td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+}

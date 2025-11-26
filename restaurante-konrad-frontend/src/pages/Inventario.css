@@ -1,0 +1,195 @@
+/* CONTENEDOR GENERAL */
+.contenedor-inventarios {
+  padding: 2rem;
+  background: #eef2ff; /* fondo moderno */
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.contenedor-inventarios h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+/* MENSAJES (Éxito / Error) */
+.contenedor-inventarios p {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1.2rem;
+  width: fit-content;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.4s ease;
+  background: #dcfce7; /* verde para éxito */
+  color: #065f46;
+  border: 2px solid #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.35);
+}
+
+.contenedor-inventarios p:contains("⚠") {
+  background: #fef3c7; /* amarillo para advertencia */
+  color: #92400e;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FORMULARIO */
+.formulario {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.formulario input {
+  padding: 0.9rem 1.1rem;
+  border: 2px solid #c7d2fe;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 1rem;
+  width: 220px;
+  transition: all 0.25s ease;
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+}
+
+.formulario button {
+  padding: 0.9rem 1.6rem;
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.formulario button:hover {
+  transform: scale(1.06);
+  background: linear-gradient(90deg, #4338ca, #4f46e5);
+  box-shadow: 0 5px 14px rgba(79, 70, 229, 0.4);
+}
+
+/* TABLA */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tabla thead {
+  background: #312e81;
+  color: white;
+}
+
+.tabla th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tabla td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.tabla tbody tr {
+  transition: all 0.2s ease;
+}
+
+.tabla tbody tr:hover {
+  background: #eef2ff;
+  transform: scale(1.01);
+}
+
+/* Alternar colores fila por fila */
+.tabla tbody tr:nth-child(even) {
+  background: #f9f9ff;
+}
+
+/* Botones de acción */
+.tabla button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 5px;
+  transition: all 0.25s ease;
+}
+
+.tabla button:first-child {
+  background: #6366f1; /* azul para editar */
+  color: white;
+}
+
+.tabla button:last-child {
+  background: #ef4444; /* rojo para eliminar */
+  color: white;
+}
+
+.tabla button:hover {
+  transform: scale(1.05);
+}
+
+/* Mensaje de “No hay registros” */
+.tabla tbody tr td[colspan] {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 1.5rem 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .contenedor-inventarios h1 {
+    font-size: 2rem;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .formulario {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .formulario input,
+  .formulario button {
+    width: 100%;
+  }
+}

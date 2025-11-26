@@ -11,12 +11,15 @@ export default function Inventarios() {
   const [editId, setEditId] = useState(null);
   const [editPlatoIndex, setEditPlatoIndex] = useState(null);
 
+  // ======================
   // CARGAR INVENTARIO
+  // ======================
   const cargarInventario = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/inventario");
-      setInventario(res.data);
+      setInventario([res.data]); // <-- CORRECCIÓN CLAVE
     } catch (error) {
+      console.log(error);
       setMensaje("⚠ Error cargando inventario");
     }
   };
@@ -25,7 +28,9 @@ export default function Inventarios() {
     cargarInventario();
   }, []);
 
+  // ======================
   // CREAR O ACTUALIZAR PLATO
+  // ======================
   const guardarPlato = async (e) => {
     e.preventDefault();
 
@@ -40,24 +45,28 @@ export default function Inventarios() {
         await axios.put(`http://localhost:8080/api/inventario/${editId}`, inv);
         setMensaje("✅ Plato actualizado correctamente");
       } else {
-        // AGREGAR NUEVO INVENTARIO CON UN SOLO PLATO
-        const data = { platos: [plato] };
-        await axios.post("http://localhost:8080/api/inventario", data);
+        // AGREGAR PLATO (BACKEND YA LO MANEJA)
+        await axios.post("http://localhost:8080/api/inventario", plato); // <-- CORREGIDO
         setMensaje("✅ Plato agregado al inventario");
       }
 
+      // Limpiar form
       setNombre("");
       setCantidad("");
       setPrecio("");
       setEditId(null);
       setEditPlatoIndex(null);
+
       cargarInventario();
     } catch (error) {
+      console.log(error);
       setMensaje("⚠ Error al guardar plato");
     }
   };
 
+  // ======================
   // CARGAR PLATO PARA EDITAR
+  // ======================
   const editarPlato = (inventarioId, plato, index) => {
     setEditId(inventarioId);
     setEditPlatoIndex(index);
@@ -66,7 +75,9 @@ export default function Inventarios() {
     setPrecio(plato.precio);
   };
 
+  // ======================
   // ELIMINAR PLATO
+  // ======================
   const eliminarPlato = async (inventarioId, index) => {
     if (!confirm("¿Seguro que deseas eliminar este plato?")) return;
 
@@ -74,7 +85,6 @@ export default function Inventarios() {
       const inv = inventario.find((i) => i.id_Inventario === inventarioId);
       inv.platos.splice(index, 1);
 
-      // Si no quedan platos, eliminar inventario completo
       if (inv.platos.length === 0) {
         await axios.delete(`http://localhost:8080/api/inventario/${inventarioId}`);
         setMensaje("🗑 Inventario eliminado");
@@ -85,6 +95,7 @@ export default function Inventarios() {
 
       cargarInventario();
     } catch (error) {
+      console.log(error);
       setMensaje("⚠ Error eliminando plato");
     }
   };
@@ -132,6 +143,7 @@ export default function Inventarios() {
             <th>Acciones</th>
           </tr>
         </thead>
+
         <tbody>
           {inventario.length === 0 ? (
             <tr>
@@ -162,4 +174,3 @@ export default function Inventarios() {
     </div>
   );
 }
-

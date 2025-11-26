@@ -15,8 +15,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* LOGIN */}
-        <Route path="/" element={<Login />} />
+        {/* REGISTRO -> será la primera página */}
+        <Route path="/" element={<Registro />} />
+
+        {/* LOGIN -> accesible desde registro */}
+        <Route path="/login" element={<Login />} />
 
         {/* PANEL */}
         <Route element={<DashboardLayout />}>
@@ -63,7 +66,7 @@ export default function App() {
             }
           />
 
-          {/* ADMIN Y AUXILIAR DE BODEGA */}
+          {/* ADMIN Y BODEGA */}
           <Route
             path="/panel/inventarios"
             element={

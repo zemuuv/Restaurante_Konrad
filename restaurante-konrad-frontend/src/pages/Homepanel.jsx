@@ -2,7 +2,7 @@ import "./Homepanel.css";
 import { Link } from "react-router-dom";
 
 export default function HomePanel() {
-  const rol = localStorage.getItem("rol") || "Invitado";
+  const rol = (localStorage.getItem("rol") || "Invitado").toUpperCase();
 
   return (
     <div className="homepanel-wrapper">

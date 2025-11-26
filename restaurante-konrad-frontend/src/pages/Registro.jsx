@@ -1,29 +1,26 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Registro.css";
 
 export default function Registro() {
-  const rol = localStorage.getItem("rol");
-
-  if (rol !== "Admin") {
-    return <h2>⛔ No tienes permisos para crear usuarios</h2>;
-  }
-
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
-  const [rolNuevo, setRolNuevo] = useState("Mesero");
+  const [rolNuevo, setRolNuevo] = useState("ADMIN"); // Rol por defecto
   const [mensaje, setMensaje] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/SingUp", {
+      await axios.post("http://localhost:8080/SingUp", {
         usuario,
         password,
         rol: rolNuevo,
       });
 
-      setMensaje("✅ Usuario registrado correctamente");
+      setMensaje(`✅ Usuario ${usuario} registrado como ${rolNuevo}`);
       setUsuario("");
       setPassword("");
     } catch (error) {
@@ -53,15 +50,20 @@ export default function Registro() {
         />
 
         <select value={rolNuevo} onChange={(e) => setRolNuevo(e.target.value)}>
-          <option>Admin</option>
-          <option>Mesero</option>
-          <option>Cocina</option>
-          <option>Caja</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="CHEF">CHEF</option>
+          <option value="AUXILIAR">AUXILIAR</option>
+          <option value="BODEGA">BODEGA</option>
         </select>
 
         <button type="submit">Crear usuario</button>
-        {mensaje && <p>{mensaje}</p>}
+        {mensaje && <p className={mensaje.includes("✅") ? "success" : "error"}>{mensaje}</p>}
       </form>
+
+      {/* Botón para ir al login */}
+      <button className="btn-login" onClick={() => navigate("/login")}>
+        Iniciar sesión
+      </button>
     </div>
   );
 }

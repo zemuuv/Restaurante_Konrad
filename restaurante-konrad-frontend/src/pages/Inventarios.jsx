@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "./inventario.css";
 import axios from "axios";
+import "./inventario.css";
 
 export default function Inventarios() {
   const [inventario, setInventario] = useState([]);
@@ -9,6 +9,7 @@ export default function Inventarios() {
   const [precio, setPrecio] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [editId, setEditId] = useState(null);
+  const [editPlatoIndex, setEditPlatoIndex] = useState(null);
 
   // CARGAR INVENTARIO
   const cargarInventario = async () => {
@@ -24,52 +25,67 @@ export default function Inventarios() {
     cargarInventario();
   }, []);
 
-  // CREAR O ACTUALIZAR PRODUCTO
-  const guardarProducto = async (e) => {
+  // CREAR O ACTUALIZAR PLATO
+  const guardarPlato = async (e) => {
     e.preventDefault();
 
-    const data = { nombre, cantidad, precio };
+    const plato = { nombre, cantidad, precio };
 
     try {
-      if (editId) {
-        // -------- ACTUALIZAR --------
-        await axios.put(`http://localhost:8080/api/inventario/${editId}`, data);
-        setMensaje("✅ Producto actualizado correctamente");
+      if (editId !== null && editPlatoIndex !== null) {
+        // EDITAR PLATO EXISTENTE
+        const inv = inventario.find((i) => i.id_Inventario === editId);
+        inv.platos[editPlatoIndex] = plato;
+
+        await axios.put(`http://localhost:8080/api/inventario/${editId}`, inv);
+        setMensaje("✅ Plato actualizado correctamente");
       } else {
-        // -------- CREAR --------
+        // AGREGAR NUEVO INVENTARIO CON UN SOLO PLATO
+        const data = { platos: [plato] };
         await axios.post("http://localhost:8080/api/inventario", data);
-        setMensaje("✅ Producto agregado al inventario");
+        setMensaje("✅ Plato agregado al inventario");
       }
 
       setNombre("");
       setCantidad("");
       setPrecio("");
       setEditId(null);
+      setEditPlatoIndex(null);
       cargarInventario();
-
     } catch (error) {
-      setMensaje("⚠ Error al guardar el producto");
+      setMensaje("⚠ Error al guardar plato");
     }
   };
 
-  // CARGAR PRODUCTO PARA EDITAR
-  const editarProducto = (item) => {
-    setEditId(item.id);
-    setNombre(item.nombre);
-    setCantidad(item.cantidad);
-    setPrecio(item.precio);
+  // CARGAR PLATO PARA EDITAR
+  const editarPlato = (inventarioId, plato, index) => {
+    setEditId(inventarioId);
+    setEditPlatoIndex(index);
+    setNombre(plato.nombre);
+    setCantidad(plato.cantidad);
+    setPrecio(plato.precio);
   };
 
-  // ELIMINAR PRODUCTO
-  const eliminarProducto = async (id) => {
-    if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+  // ELIMINAR PLATO
+  const eliminarPlato = async (inventarioId, index) => {
+    if (!confirm("¿Seguro que deseas eliminar este plato?")) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/inventario/${id}`);
-      setMensaje("🗑 Producto eliminado");
+      const inv = inventario.find((i) => i.id_Inventario === inventarioId);
+      inv.platos.splice(index, 1);
+
+      // Si no quedan platos, eliminar inventario completo
+      if (inv.platos.length === 0) {
+        await axios.delete(`http://localhost:8080/api/inventario/${inventarioId}`);
+        setMensaje("🗑 Inventario eliminado");
+      } else {
+        await axios.put(`http://localhost:8080/api/inventario/${inventarioId}`, inv);
+        setMensaje("🗑 Plato eliminado");
+      }
+
       cargarInventario();
     } catch (error) {
-      setMensaje("⚠ Error eliminando el producto");
+      setMensaje("⚠ Error eliminando plato");
     }
   };
 
@@ -77,18 +93,17 @@ export default function Inventarios() {
     <div className="container">
       <h1>📦 Gestión de Inventarios</h1>
 
-      {mensaje && <p>{mensaje}</p>}
+      {mensaje && <p className="mensaje">{mensaje}</p>}
 
       {/* FORMULARIO */}
-      <form onSubmit={guardarProducto} className="formulario">
+      <form onSubmit={guardarPlato} className="formulario">
         <input
           type="text"
-          placeholder="Nombre del producto"
+          placeholder="Nombre del plato"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           required
         />
-
         <input
           type="number"
           placeholder="Cantidad"
@@ -96,7 +111,6 @@ export default function Inventarios() {
           onChange={(e) => setCantidad(e.target.value)}
           required
         />
-
         <input
           type="number"
           placeholder="Precio"
@@ -104,39 +118,48 @@ export default function Inventarios() {
           onChange={(e) => setPrecio(e.target.value)}
           required
         />
-
-        <button type="submit">
-          {editId ? "Actualizar" : "Agregar producto"}
-        </button>
+        <button type="submit">{editId !== null ? "Actualizar Plato" : "Agregar Plato"}</button>
       </form>
 
       {/* TABLA */}
       <table className="tabla">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Producto</th>
+            <th>ID Inventario</th>
+            <th>Plato</th>
             <th>Cantidad</th>
             <th>Precio</th>
             <th>Acciones</th>
           </tr>
         </thead>
-
         <tbody>
-          {inventario.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.nombre}</td>
-              <td>{item.cantidad}</td>
-              <td>${item.precio}</td>
-              <td>
-                <button onClick={() => editarProducto(item)}>Editar</button>
-                <button onClick={() => eliminarProducto(item.id)}>Eliminar</button>
-              </td>
+          {inventario.length === 0 ? (
+            <tr>
+              <td colSpan="5">No hay registros</td>
             </tr>
-          ))}
+          ) : (
+            inventario.map((inv) =>
+              inv.platos.map((plato, index) => (
+                <tr key={inv.id_Inventario + index}>
+                  <td>{inv.id_Inventario}</td>
+                  <td>{plato.nombre}</td>
+                  <td>{plato.cantidad}</td>
+                  <td>${plato.precio}</td>
+                  <td>
+                    <button onClick={() => editarPlato(inv.id_Inventario, plato, index)}>
+                      Editar
+                    </button>
+                    <button onClick={() => eliminarPlato(inv.id_Inventario, index)}>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )
+          )}
         </tbody>
       </table>
     </div>
   );
 }
+

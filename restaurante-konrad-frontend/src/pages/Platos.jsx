@@ -4,22 +4,18 @@ import "./Platos.css";
 
 export default function Platos() {
   const [platos, setPlatos] = useState([]);
-  const [form, setForm] = useState({
-    nombre: "",
-    precio: "",
-    cantidad: "",
-  });
+  const [form, setForm] = useState({ nombre: "", precio: "", cantidad: "" });
+  const [editId, setEditId] = useState(null);
   const [mensaje, setMensaje] = useState("");
+
+  // Cargar platos desde la base de datos
   const cargarPlatos = async () => {
     try {
       const res = await axios.get("http://localhost:8080/menu/listar");
-      if (res.data && res.data.platos) {
-        setPlatos(res.data.platos);
-      } else {
-        setPlatos([]);
-      }
+      setPlatos(res.data || []);
     } catch (err) {
       console.error("Error cargando platos:", err);
+      setMensaje("⚠ Error cargando platos");
     }
   };
 
@@ -27,26 +23,58 @@ export default function Platos() {
     cargarPlatos();
   }, []);
 
-  // MANEJAR INPUTS
-  
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
+  // Guardar o actualizar plato
   const guardarPlato = async (e) => {
     e.preventDefault();
-
     try {
-      await axios.post("http://localhost:8080/agregarPlato", {
-        nombre: form.nombre,
-        precio: parseFloat(form.precio),
-        cantidad: parseFloat(form.cantidad),
-      });
+      if (editId) {
+        await axios.put(`http://localhost:8080/platos/${editId}`, {
+          nombre: form.nombre,
+          precio: parseFloat(form.precio),
+          cantidad: parseFloat(form.cantidad),
+        });
+        setMensaje("✅ Plato actualizado correctamente");
+      } else {
+        await axios.post("http://localhost:8080/agregarPlato", {
+          nombre: form.nombre,
+          precio: parseFloat(form.precio),
+          cantidad: parseFloat(form.cantidad),
+        });
+        setMensaje("✅ Plato agregado correctamente");
+      }
 
-      setMensaje("Plato registrado correctamente");
       setForm({ nombre: "", precio: "", cantidad: "" });
+      setEditId(null);
       cargarPlatos();
     } catch (err) {
       console.error(err);
-      setMensaje("❌ Error al registrar el plato");
+      setMensaje("❌ Error al guardar el plato");
+    }
+  };
+
+  // Editar plato
+  const editarPlato = (plato) => {
+    setForm({
+      nombre: plato.nombre,
+      precio: plato.precio,
+      cantidad: plato.cantidad,
+    });
+    setEditId(plato.id);
+  };
+
+  // Eliminar plato
+  const eliminarPlato = async (id) => {
+    if (!window.confirm("¿Deseas eliminar este plato?")) return;
+    try {
+      await axios.delete(`http://localhost:8080/platos/${id}`);
+      setMensaje("🗑 Plato eliminado correctamente");
+      cargarPlatos();
+    } catch (err) {
+      console.error(err);
+      setMensaje("⚠ Error al eliminar el plato");
     }
   };
 
@@ -63,7 +91,6 @@ export default function Platos() {
           onChange={handleChange}
           required
         />
-
         <input
           type="number"
           name="precio"
@@ -72,7 +99,6 @@ export default function Platos() {
           onChange={handleChange}
           required
         />
-
         <input
           type="number"
           name="cantidad"
@@ -82,23 +108,24 @@ export default function Platos() {
           required
         />
 
-        <button type="submit">Registrar Plato</button>
+        <button type="submit">{editId ? "Actualizar Plato" : "Agregar Plato"}</button>
       </form>
 
       {mensaje && <p className="mensaje">{mensaje}</p>}
+
       <table className="platos-table">
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Precio ($)</th>
             <th>Cantidad</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-
         <tbody>
           {platos.length === 0 ? (
             <tr>
-              <td colSpan="3" style={{ textAlign: "center" }}>
+              <td colSpan="4" style={{ textAlign: "center" }}>
                 No hay platos registrados.
               </td>
             </tr>
@@ -108,6 +135,10 @@ export default function Platos() {
                 <td>{p.nombre}</td>
                 <td>{p.precio}</td>
                 <td>{p.cantidad}</td>
+                <td>
+                  <button onClick={() => editarPlato(p)}>✏️</button>
+                  <button onClick={() => eliminarPlato(p.id)}>🗑️</button>
+                </td>
               </tr>
             ))
           )}

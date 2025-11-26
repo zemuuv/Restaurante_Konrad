@@ -109,3 +109,67 @@
     font-size: 0.9rem;
   }
 }
+.contenedor-auditorias {
+  padding: 2rem;
+}
+
+.mensaje {
+  margin: 1rem 0;
+  font-weight: 600;
+}
+
+.form-auditoria {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form-auditoria input {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.form-auditoria button {
+  padding: 0.5rem 1.5rem;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-auditoria button:hover {
+  background: #4338ca;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background: #4f46e5;
+  color: white;
+}
+
+.btn-eliminar {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-eliminar:hover {
+  background: #b91c1c;
+}
+

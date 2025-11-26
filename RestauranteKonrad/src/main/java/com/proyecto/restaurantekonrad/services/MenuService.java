@@ -20,10 +20,12 @@ public class MenuService {
     @Autowired
     private  MenuRepository menuRepository;
 
+    public Menu menuExistente;
+
     public String ingresarPlato(Plato plato) {
 
         // Verificar si ya existe un menú
-        Menu menuExistente = menuRepository.findAll()
+        menuExistente = menuRepository.findAll()
                 .stream()
                 .findFirst()
                 .orElse(null);
@@ -84,7 +86,28 @@ public class MenuService {
     }
 
 
-    public Menu obtenerMenu() {
-        return menuRepository.findAll().stream().findFirst().orElse(null);
+    public List<Plato> obtenerplatos() {
+        return platoRepository.findAll();
+    }
+
+    public String eliminarPlato(String id) {
+
+        menuExistente = menuRepository.findAll()
+                .stream()
+                .findFirst()
+                .orElse(null);
+
+        List<Plato> listaPlatos = menuExistente.getPlatos();
+
+        if (!platoRepository.existsById(id)) {
+            return "El plato no existe.";
+        }
+
+        listaPlatos.remove(platoRepository.findById(id).get());
+
+        menuExistente.setPlatos(listaPlatos);
+        menuRepository.save(menuExistente);
+        platoRepository.deleteById(id);
+        return "Plato eliminado.";
     }
 }

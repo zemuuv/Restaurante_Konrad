@@ -5,6 +5,8 @@ import com.proyecto.restaurantekonrad.model.Plato;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SistemaRestaurante {
 
@@ -19,6 +21,19 @@ public class SistemaRestaurante {
         return mensaje1 +"\n"+ mensaje2;
     }
 
+    public List<Plato> obtenerMenu() {
+        return menuService.obtenerplatos();
+    }
+
+    public List<Plato> obtenerInventario() {
+        return inventarioservice.obtenerplatos();
+    }
+
+    public String eliminarPlato(String id) {
+        String mensaje1 = inventarioservice.eliminarPlato(id);
+        menuService.eliminarPlato(id);
+        return mensaje1;
+    }
 
 
 }

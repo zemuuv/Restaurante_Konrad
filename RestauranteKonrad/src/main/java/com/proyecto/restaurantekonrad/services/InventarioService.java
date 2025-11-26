@@ -4,20 +4,27 @@ import com.proyecto.restaurantekonrad.model.Inventario;
 import com.proyecto.restaurantekonrad.model.Menu;
 import com.proyecto.restaurantekonrad.model.Plato;
 import com.proyecto.restaurantekonrad.repository.InventarioRepository;
+import com.proyecto.restaurantekonrad.repository.MenuRepository;
+import com.proyecto.restaurantekonrad.repository.PlatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class InventarioService {
 
     @Autowired
     private InventarioRepository inventarioRepository;
+    @Autowired
+    private PlatoRepository platoRepository;
+
+    public Inventario InventarioExistente;
 
     public String nuevoInventario(Plato plato){
-        Inventario InventarioExistente = inventarioRepository.findAll().stream().findFirst().orElse(null);
+        InventarioExistente = inventarioRepository.findAll().stream().findFirst().orElse(null);
 
         if (InventarioExistente == null) {
             // Si no existe menú, crear uno nuevo
@@ -47,5 +54,29 @@ public class InventarioService {
             inventarioRepository.save(InventarioExistente);
             return "Plato agregado al inventario";
         }
+    }
+
+    public List<Plato> obtenerplatos() {
+        return platoRepository.findAll();
+    }
+
+    public String eliminarPlato(String id) {
+        InventarioExistente = inventarioRepository.findAll()
+                .stream()
+                .findFirst()
+                .orElse(null);
+
+        List<Plato> listaPlatos = InventarioExistente.getPlatos();
+
+        if (!platoRepository.existsById(id)) {
+            return "El plato no existe.";
+        }
+
+        listaPlatos.remove(platoRepository.findById(id).get());
+
+        InventarioExistente.setPlatos(listaPlatos);
+        inventarioRepository.save(InventarioExistente);
+        platoRepository.deleteById(id);
+        return "Plato eliminado.";
     }
 }

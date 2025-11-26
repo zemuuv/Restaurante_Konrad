@@ -7,6 +7,8 @@ import com.proyecto.restaurantekonrad.services.SistemaRestaurante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping
 @RestController
 public class PlatoController {
@@ -20,6 +22,22 @@ public class PlatoController {
         return sistemaRestaurante.agregarProducto(plato);
     }
 
+
+    @GetMapping("menu/listar")
+    public List<Plato> obtenerPlatosMenu() {
+        return sistemaRestaurante.obtenerMenu();
+    }
+
+    @GetMapping("inventario/listar")
+    public List<Plato> obtenerPlatosInventario() {
+        return sistemaRestaurante.obtenerInventario();
+    }
+
+
+    @DeleteMapping("/platos/{id}")
+    public String eliminarPlato(@PathVariable String id) {
+        return sistemaRestaurante.eliminarPlato(id);
+    }
 
 
 }
